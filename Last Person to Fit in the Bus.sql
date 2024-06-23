@@ -1,0 +1,11 @@
+WITH cte AS 
+(SELECT *, SUM(weight) OVER(ORDER BY turn) AS total_weight 
+FROM queue  
+GROUP BY turn, person_id ORDER BY turn),
+
+cte2 AS  
+(SELECT turn, person_name, total_weight 
+FROM cte 
+WHERE total_weight<=1000 ORDER BY turn DESC)
+
+SELECT person_name FROM cte2 LIMIT 1
